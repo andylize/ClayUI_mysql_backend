@@ -59,10 +59,26 @@ DROP TABLE IF EXISTS `Applications`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Applications` (
-  `ApplicationID` int(11) NOT NULL,
+  `ApplicationID` int(11) NOT NULL AUTO_INCREMENT,
   `ApplicationName` varchar(50) NOT NULL,
   `Description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ApplicationID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ClayUI_Demo.Contacts`
+--
+
+DROP TABLE IF EXISTS `ClayUI_Demo.Contacts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ClayUI_Demo.Contacts` (
+  `RecordID` int(11) NOT NULL AUTO_INCREMENT,
+  `FirstName` varchar(25) DEFAULT NULL,
+  `LastName` varchar(25) DEFAULT NULL,
+  `EmailAddress` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`RecordID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -124,7 +140,7 @@ DROP TABLE IF EXISTS `Elements`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Elements` (
-  `ElementID` int(11) NOT NULL,
+  `ElementID` int(11) NOT NULL AUTO_INCREMENT,
   `ApplicationID` int(11) NOT NULL,
   `AppPartID` int(11) NOT NULL,
   `ElementName` varchar(50) NOT NULL DEFAULT '',
@@ -141,10 +157,10 @@ CREATE TABLE `Elements` (
   KEY `fk_Elements_AppParts` (`ApplicationID`,`AppPartID`),
   KEY `fk_Elements_DataTypes` (`DataType`),
   KEY `fk_Elements_ElementTypes` (`ElementType`),
-  CONSTRAINT `fk_Elements_ElementTypes` FOREIGN KEY (`ElementType`) REFERENCES `ElementTypes` (`ElementTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_Elements_AppParts` FOREIGN KEY (`ApplicationID`, `AppPartID`) REFERENCES `AppParts` (`ApplicationID`, `AppPartID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_Elements_DataTypes` FOREIGN KEY (`DataType`) REFERENCES `DataTypes` (`DataTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `fk_Elements_DataTypes` FOREIGN KEY (`DataType`) REFERENCES `DataTypes` (`DataTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `fk_Elements_ElementTypes` FOREIGN KEY (`ElementType`) REFERENCES `ElementTypes` (`ElementTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,4 +187,4 @@ CREATE TABLE `ExampleElementDataTable` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-03-11 15:09:02
+-- Dump completed on 2012-03-11 16:22:49
