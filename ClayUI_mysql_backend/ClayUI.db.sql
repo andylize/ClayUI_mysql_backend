@@ -76,7 +76,7 @@ DROP TABLE IF EXISTS `ClayUI_Demo.Contacts`;
 CREATE TABLE `ClayUI_Demo.Contacts` (
   `RecordID` int(11) NOT NULL AUTO_INCREMENT,
   `FirstName` varchar(25) DEFAULT NULL,
-  `LastName` varchar(25) DEFAULT NULL,
+  `LastName` varchar(50) DEFAULT NULL,
   `EmailAddress` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`RecordID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -104,7 +104,7 @@ DROP TABLE IF EXISTS `ElementOptions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ElementOptions` (
-  `ElementOptionID` int(11) NOT NULL,
+  `ElementOptionID` int(11) NOT NULL AUTO_INCREMENT,
   `ElementID` int(11) NOT NULL,
   `ApplicationID` int(11) NOT NULL,
   `AppPartID` int(11) NOT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE `ElementOptions` (
   PRIMARY KEY (`ElementOptionID`,`ElementID`,`ApplicationID`,`AppPartID`),
   KEY `fk_ElementOptions_Elements` (`ElementID`,`ApplicationID`,`AppPartID`),
   CONSTRAINT `fk_ElementOptions_Elements` FOREIGN KEY (`ElementID`, `ApplicationID`, `AppPartID`) REFERENCES `Elements` (`ElementID`, `ApplicationID`, `AppPartID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +160,7 @@ CREATE TABLE `Elements` (
   CONSTRAINT `fk_Elements_AppParts` FOREIGN KEY (`ApplicationID`, `AppPartID`) REFERENCES `AppParts` (`ApplicationID`, `AppPartID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Elements_DataTypes` FOREIGN KEY (`DataType`) REFERENCES `DataTypes` (`DataTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_Elements_ElementTypes` FOREIGN KEY (`ElementType`) REFERENCES `ElementTypes` (`ElementTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,4 +187,4 @@ CREATE TABLE `ExampleElementDataTable` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-03-11 16:22:49
+-- Dump completed on 2012-03-13 22:22:02
