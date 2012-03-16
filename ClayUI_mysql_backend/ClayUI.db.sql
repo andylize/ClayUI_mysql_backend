@@ -63,7 +63,7 @@ CREATE TABLE `Applications` (
   `ApplicationName` varchar(50) NOT NULL,
   `Description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +79,7 @@ CREATE TABLE `ClayUI_Demo.Contacts` (
   `LastName` varchar(50) DEFAULT NULL,
   `EmailAddress` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`RecordID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,6 +181,29 @@ CREATE TABLE `ExampleElementDataTable` (
 --
 -- Dumping routines for database 'ClayUI'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `uspGetAppPartData` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspGetAppPartData`(IN APPLICATION_ID INT)
+BEGIN
+    SELECT AppPartID
+        ,DataTableName
+        ,Version
+    FROM AppPartData
+    WHERE ApplicationID = APPLICATION_ID;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `uspGetAppParts` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -198,6 +221,64 @@ BEGIN
         ,Description 
     FROM AppParts 
     WHERE ApplicationID = APPLICATION_ID;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspGetDataTableSchema` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspGetDataTableSchema`(IN APPLICATION_ID INT, IN APP_PART_ID INT)
+BEGIN
+    SELECT column_name
+        ,data_type
+        ,character_maximum_length AS length
+        ,CASE WHEN column_key = 'PRI' THEN 1 ELSE 0 END AS is_primary_key
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = (
+        SELECT CONCAT(a.ApplicationName, '.', d.DataTableName)
+        FROM Applications a
+        JOIN AppParts p ON (a.ApplicationID = p.ApplicationID)
+        JOIN AppPartData d ON (p.AppPartID = d.AppPartID)
+        WHERE a.ApplicationID = APPLICATION_ID AND p.AppPartID = APP_PART_ID);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspGetElementData` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspGetElementData`(IN APPLICATION_ID INT, IN APP_PART_ID INT)
+BEGIN
+        SET @s = CONCAT('SELECT * FROM `',
+            (SELECT CONCAT(a.ApplicationName, '.', d.DataTableName)
+            FROM Applications a
+            JOIN AppParts p ON (a.ApplicationID = p.ApplicationID)
+            JOIN AppPartData d ON (p.AppPartID = d.AppPartID)
+            WHERE a.ApplicationID = APPLICATION_ID AND p.AppPartID = APP_PART_ID)
+        , '`;');
+
+        PREPARE stmt FROM @s;
+
+        EXECUTE stmt;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -269,4 +350,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-03-13 22:28:37
+-- Dump completed on 2012-03-15 22:51:5
