@@ -160,7 +160,7 @@ CREATE TABLE `Elements` (
   CONSTRAINT `fk_Elements_AppParts` FOREIGN KEY (`ApplicationID`, `AppPartID`) REFERENCES `AppParts` (`ApplicationID`, `AppPartID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Elements_DataTypes` FOREIGN KEY (`DataType`) REFERENCES `DataTypes` (`DataTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_Elements_ElementTypes` FOREIGN KEY (`ElementType`) REFERENCES `ElementTypes` (`ElementTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,6 +181,70 @@ CREATE TABLE `ExampleElementDataTable` (
 --
 -- Dumping routines for database 'ClayUI'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `uspGetAppMenuStructure` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspGetAppMenuStructure`()
+BEGIN
+    SELECT ApplicationID AS AppID
+        ,1 AS Position
+        ,1 AS SortOrder
+        ,0 AS AppPartID
+        ,1 AS Type
+        ,ApplicationName AS Name
+        ,0 AS ElementID
+    FROM ClayUI.Applications
+    UNION ALL
+    SELECT ApplicationID AS AppID
+        ,2 AS Position
+        ,1 AS SortOrder
+        ,AppPartID
+        ,2 AS Type
+        ,Description AS Name
+        ,0 AS ElementID
+    FROM ClayUI.AppParts
+    UNION ALL
+    SELECT ApplicationID AS AppID
+        ,3 AS Position
+        ,1 AS SortOrder
+        ,MAX(AppPartID) AS AppPartID
+        ,3 AS Type
+        ,'Elements' AS Name
+        ,0 AS ElementID
+    FROM ClayUI.Elements
+    GROUP BY AppID, AppPartID
+    UNION ALL
+    SELECT ApplicationID AS AppID
+        ,4 AS Position
+        ,2 AS SortOrder
+        ,AppPartID
+        ,4 AS Type
+        ,ElementName AS Name
+        ,ElementID AS ElementID
+    FROM ClayUI.Elements
+    UNION ALL
+    SELECT ApplicationID AS AppID
+        ,3 AS Position
+        ,2 AS SortOrder
+        ,AppPartID
+        ,5 AS Type
+        ,'DataTable' AS Name
+        ,0 AS ElementID
+    FROM AppPartData
+    ORDER BY AppID ASC, AppPartID ASC, Type ASC, Position ASC, SortOrder ASC;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `uspGetAppPartData` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -350,4 +414,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-03-15 22:51:5
+-- Dump completed on 2012-03-19  4:02:02
