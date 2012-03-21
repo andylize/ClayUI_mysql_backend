@@ -43,6 +43,7 @@ DROP TABLE IF EXISTS `AppParts`;
 CREATE TABLE `AppParts` (
   `ApplicationID` int(11) NOT NULL,
   `AppPartID` int(11) NOT NULL,
+  `AppPartName` varchar(50) DEFAULT NULL,
   `Description` varchar(255) DEFAULT NULL,
   `Version` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ApplicationID`,`AppPartID`),
@@ -230,7 +231,7 @@ BEGIN
         ,1 AS SortOrder
         ,AppPartID
         ,2 AS Type
-        ,Description AS Name
+        ,AppPartName AS Name
         ,0 AS ElementID
     FROM ClayUI.AppParts
     UNION ALL
@@ -285,6 +286,29 @@ BEGIN
         ,Version
     FROM AppPartData
     WHERE ApplicationID = APPLICATION_ID;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspGetAppPartDetails` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspGetAppPartDetails`(IN APPLICATION_ID INT, IN APP_PART_ID INT)
+BEGIN
+    SELECT ApplicationID
+        ,AppPartID
+        ,AppPartName
+        ,Description
+    FROM AppParts WHERE ApplicationID = APPLICATION_ID AND AppPartID = APP_PART_ID;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -427,6 +451,55 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspUpdateApplication` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspUpdateApplication`(IN APPLICATION_ID INT, IN APPLICATION_NAME varchar(50), IN APPLICATION_DESCR varchar(255))
+BEGIN
+
+        UPDATE Applications
+            SET ApplicationName = APPLICATION_NAME
+            ,Description = APPLICATION_DESCR
+        WHERE ApplicationID = APPLICATION_ID;
+
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspUpdateAppPart` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspUpdateAppPart`(IN APPLICATION_ID INT, IN APP_PART_ID INT, IN APP_PART_NAME varchar(50), IN APP_PART_DESCR varchar(255))
+BEGIN
+
+    UPDATE AppParts
+        SET AppPartName = APP_PART_NAME
+        ,Description = APP_PART_DESCR
+        ,Version = Version + 1
+    WHERE ApplicationID = APPLICATION_ID AND AppPartID = APP_PART_ID;
+
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -437,4 +510,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-03-19 23:21:16
+-- Dump completed on 2012-03-20 21:39:39
