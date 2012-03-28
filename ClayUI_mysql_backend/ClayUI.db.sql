@@ -539,6 +539,39 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspGetAppPartDataTable` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspGetAppPartDataTable`(IN APP_ID INT, IN APP_PART_ID INT)
+BEGIN
+    
+    
+    DECLARE APP_NAME varchar(50);
+    DECLARE APP_PART_NAME varchar(50);
+    
+    SELECT ApplicationName FROM Applications WHERE ApplicationID = APP_ID INTO APP_NAME;
+    SELECT AppPartName FROM AppParts WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID INTO APP_PART_NAME;
+
+    SET @STATEMENT = CONCAT('SELECT * FROM `', APP_NAME, '.', APP_PART_ID, '.', APP_PART_NAME, '`;');
+    
+    PREPARE stmt FROM @STATEMENT;
+
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+    
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `uspGetAppPartDetails` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -614,6 +647,41 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspGetElement` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspGetElement`(IN APP_ID INT, IN APP_PART_ID INT, IN ELEMENT_ID INT)
+BEGIN
+    
+    SELECT e.ApplicationID
+        ,e.AppPartID
+        ,e.ElementID
+        ,e.ElementName
+        ,et.ElementTypeDescr AS 'Type'
+        ,e.Label
+        ,CAST(e.IsStored AS UNSIGNED) AS 'Stored'
+        ,dt.DataTypeDescr AS 'Datatype'
+        ,e.DataLength AS 'Length'
+        ,e.ListOrder AS 'Order'
+        ,CAST(e.IsEnabled AS UNSIGNED) AS 'Enabled'
+    FROM Elements e
+    JOIN ElementTypes et ON (e.ElementType = et.ElementTypeID)
+    JOIN DataTypes dt ON (e.DataType = dt.DataTypeID)
+    WHERE e.ApplicationID = APP_ID AND e.AppPartID = APP_PART_ID AND e.ElementID = ELEMENT_ID;
+    
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `uspGetElementDataTable` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -629,16 +697,46 @@ BEGIN
     SELECT e.ElementName
         ,et.ElementTypeDescr AS 'Type'
         ,e.Label
-        ,e.IsStored AS 'Stored'
+        ,CAST(e.IsStored AS UNSIGNED) AS 'Stored'
         ,dt.DataTypeDescr AS 'Datatype'
         ,e.DataLength AS 'Length'
         ,e.ListOrder AS 'Order'
-        ,e.IsEnabled AS 'Enabled'
+        ,CAST(e.IsEnabled AS UNSIGNED) AS 'Enabled'
     FROM Elements e
     JOIN ElementTypes et ON (e.ElementType = et.ElementTypeID)
     JOIN DataTypes dt ON (e.DataType = dt.DataTypeID)
     WHERE e.ApplicationID = APP_ID AND e.AppPartID = APP_PART_ID
     ORDER BY e.ListOrder ASC, e.ElementName ASC;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspGetElements` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspGetElements`(IN APPLICATION_ID INT)
+BEGIN
+    SELECT ElementID
+        ,AppPartID
+        ,ElementName
+        ,ElementType
+        ,DataType
+        ,DataLength
+        ,`Label`
+        ,CAST(IsStored AS SIGNED) AS IsStored
+        ,ListOrder
+        ,Version
+    FROM Elements
+    WHERE (ApplicationID = APPLICATION_ID) AND (IsEnabled = 1);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -723,4 +821,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-03-25 18:37:29
+-- Dump completed on 2012-03-27 21:31:50
