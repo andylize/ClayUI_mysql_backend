@@ -647,6 +647,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspGetDataTypes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspGetDataTypes`()
+BEGIN
+    SELECT DataTypeID
+        ,DataTypeDescr
+    FROM DataTypes;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `uspGetElement` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -664,16 +685,15 @@ BEGIN
         ,e.AppPartID
         ,e.ElementID
         ,e.ElementName
-        ,et.ElementTypeDescr AS 'Type'
+        ,e.ElementType AS 'Type'
+        ,e.Description
         ,e.Label
         ,CAST(e.IsStored AS UNSIGNED) AS 'Stored'
-        ,dt.DataTypeDescr AS 'Datatype'
+        ,e.DataType AS 'Datatype'
         ,e.DataLength AS 'Length'
         ,e.ListOrder AS 'Order'
         ,CAST(e.IsEnabled AS UNSIGNED) AS 'Enabled'
     FROM Elements e
-    JOIN ElementTypes et ON (e.ElementType = et.ElementTypeID)
-    JOIN DataTypes dt ON (e.DataType = dt.DataTypeID)
     WHERE e.ApplicationID = APP_ID AND e.AppPartID = APP_PART_ID AND e.ElementID = ELEMENT_ID;
     
 END */;;
@@ -737,6 +757,27 @@ BEGIN
         ,Version
     FROM Elements
     WHERE (ApplicationID = APPLICATION_ID) AND (IsEnabled = 1);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspGetElementTypes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspGetElementTypes`()
+BEGIN
+    SELECT ElementTypeID
+        ,ElementTypeDescr
+    FROM ElementTypes;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -821,4 +862,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-03-27 21:31:50
+-- Dump completed on 2012-03-31 18:52:44
