@@ -16,34 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `App2.1.New_AppPart1`
---
-
-DROP TABLE IF EXISTS `App2.1.New_AppPart1`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `App2.1.New_AppPart1` (
-  `RecordID` int(11) NOT NULL AUTO_INCREMENT,
-  `30.NewElement` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`RecordID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `App2.2.New_AppPart2`
---
-
-DROP TABLE IF EXISTS `App2.2.New_AppPart2`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `App2.2.New_AppPart2` (
-  `RecordID` int(11) NOT NULL AUTO_INCREMENT,
-  `31.NewElement` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`RecordID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `App2.4.New_AppPart`
 --
 
@@ -102,6 +74,7 @@ CREATE TABLE `AppParts` (
   `AppPartName` varchar(50) DEFAULT NULL,
   `Description` varchar(255) DEFAULT NULL,
   `Version` int(11) NOT NULL DEFAULT '0',
+  `IsEnabled` bit(1) NOT NULL DEFAULT b'1',
   PRIMARY KEY (`ApplicationID`,`AppPartID`),
   KEY `fk_AppParts_Applications` (`ApplicationID`),
   CONSTRAINT `fk_AppParts_Applications` FOREIGN KEY (`ApplicationID`) REFERENCES `Applications` (`ApplicationID`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -119,8 +92,9 @@ CREATE TABLE `Applications` (
   `ApplicationID` int(11) NOT NULL AUTO_INCREMENT,
   `ApplicationName` varchar(50) NOT NULL,
   `Description` varchar(255) DEFAULT NULL,
+  `IsEnabled` bit(1) NOT NULL DEFAULT b'1',
   PRIMARY KEY (`ApplicationID`,`ApplicationName`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,8 +111,27 @@ CREATE TABLE `ClayUI_Demo.1.Contacts` (
   `4.EmailAddress` varchar(25) DEFAULT NULL,
   `7.City` varchar(25) DEFAULT NULL,
   `8.State` char(2) DEFAULT NULL,
+  `38.NewElement` varchar(25) DEFAULT NULL,
+  `39.NewElement` varchar(25) DEFAULT NULL,
+  `40.NewElement` varchar(25) DEFAULT NULL,
+  `41.NewElement` varchar(25) DEFAULT NULL,
+  `42.NewElement` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`RecordID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ClayUI_Demo.2.New_AppPart`
+--
+
+DROP TABLE IF EXISTS `ClayUI_Demo.2.New_AppPart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ClayUI_Demo.2.New_AppPart` (
+  `RecordID` int(11) NOT NULL AUTO_INCREMENT,
+  `9.NewElement` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`RecordID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +168,7 @@ CREATE TABLE `ElementOptions` (
   PRIMARY KEY (`ElementOptionID`,`ElementID`,`ApplicationID`,`AppPartID`),
   KEY `fk_ElementOptions_Elements` (`ElementID`,`ApplicationID`,`AppPartID`),
   CONSTRAINT `fk_ElementOptions_Elements` FOREIGN KEY (`ElementID`, `ApplicationID`, `AppPartID`) REFERENCES `Elements` (`ElementID`, `ApplicationID`, `AppPartID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,11 +202,11 @@ CREATE TABLE `Elements` (
   `DataType` int(11) NOT NULL DEFAULT '0',
   `Label` varchar(50) NOT NULL DEFAULT '',
   `Description` varchar(255) DEFAULT NULL,
-  `IsStored` bit(1) NOT NULL DEFAULT b'0',
+  `IsStored` bit(1) NOT NULL DEFAULT b'1',
   `ListOrder` int(11) NOT NULL DEFAULT '0',
-  `IsEnabled` bit(1) NOT NULL DEFAULT b'0',
-  `Version` int(11) NOT NULL,
-  `DataLength` int(11) NOT NULL DEFAULT '0',
+  `IsEnabled` bit(1) NOT NULL DEFAULT b'1',
+  `Version` int(11) NOT NULL DEFAULT '0',
+  `DataLength` int(11) NOT NULL DEFAULT '25',
   PRIMARY KEY (`ElementID`,`ApplicationID`,`AppPartID`),
   KEY `fk_Elements_AppParts` (`ApplicationID`,`AppPartID`),
   KEY `fk_Elements_DataTypes` (`DataType`),
@@ -221,7 +214,7 @@ CREATE TABLE `Elements` (
   CONSTRAINT `fk_Elements_AppParts` FOREIGN KEY (`ApplicationID`, `AppPartID`) REFERENCES `AppParts` (`ApplicationID`, `AppPartID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Elements_DataTypes` FOREIGN KEY (`DataType`) REFERENCES `DataTypes` (`DataTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_Elements_ElementTypes` FOREIGN KEY (`ElementType`) REFERENCES `ElementTypes` (`ElementTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,6 +230,48 @@ CREATE TABLE `ExampleElementDataTable` (
   `Element2` int(11) DEFAULT NULL,
   PRIMARY KEY (`RecordID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Second App Demo.1.New_AppPart1`
+--
+
+DROP TABLE IF EXISTS `Second App Demo.1.New_AppPart1`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Second App Demo.1.New_AppPart1` (
+  `RecordID` int(11) NOT NULL AUTO_INCREMENT,
+  `30.NewElement` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`RecordID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Second App Demo.2.New_AppPart2`
+--
+
+DROP TABLE IF EXISTS `Second App Demo.2.New_AppPart2`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Second App Demo.2.New_AppPart2` (
+  `RecordID` int(11) NOT NULL AUTO_INCREMENT,
+  `31.NewElement` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`RecordID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `test`
+--
+
+DROP TABLE IF EXISTS `test`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `test` (
+  `record_id` int(11) NOT NULL,
+  `dec_column` decimal(10,0) DEFAULT NULL,
+  PRIMARY KEY (`record_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -365,9 +400,10 @@ BEGIN
     DECLARE APP_PART_NAME varchar(50);
 
     -- add generic element
-    INSERT INTO Elements (ApplicationID, AppPartID, ElementName, Version)
+    INSERT INTO Elements (ApplicationID, AppPartID, ElementName, `Label`, Version)
     VALUES (APP_ID
         ,APP_PART_ID
+        ,'NewElement'
         ,'NewElement'
         ,0);
     
@@ -382,7 +418,157 @@ BEGIN
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
         
-    CALL uspGetElementDetails(ELEMENT_ID);
+    CALL uspGetElement(APP_ID, APP_PART_ID, ELEMENT_ID);
+
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspDeleteApplication` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspDeleteApplication`(IN APP_ID INT)
+BEGIN
+    
+    DECLARE APP_PART_ID INT;
+    DECLARE DONE INT DEFAULT FALSE;
+    DECLARE APP_NAME varchar(50);
+    DECLARE APP_PART_NAME varchar(50);
+    DECLARE DATA_TABLES CURSOR FOR SELECT AppPartID, DataTableName FROM AppPartData WHERE ApplicationID = APP_ID;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET DONE = TRUE;
+
+    SELECT ApplicationName FROM Applications WHERE ApplicationID = APP_ID INTO APP_NAME;
+
+    -- loop through cursor
+    OPEN DATA_TABLES;
+
+    read_loop: LOOP
+        
+        FETCH DATA_TABLES INTO APP_PART_ID, APP_PART_NAME;
+        
+        IF DONE THEN
+            LEAVE read_loop;
+        END IF;
+
+        -- delete data tables
+        SET @STATEMENT = CONCAT('DROP TABLE `', APP_NAME, '.', CAST(APP_PART_ID AS char), '.', APP_PART_NAME, '`');
+        PREPARE stmt FROM @STATEMENT;
+        
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
+
+        -- delete data table reference
+        DELETE FROM AppPartData WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+
+        -- delete element options
+        DELETE FROM ElementOptions WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+
+        -- delete elements
+        DELETE FROM Elements WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+
+        -- delete app part    
+        DELETE FROM AppParts WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+
+    END LOOP;
+    CLOSE DATA_TABLES;
+    
+    -- delete application
+    DELETE FROM Applications WHERE ApplicationID = APP_ID;
+    
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspDeleteAppPart` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspDeleteAppPart`(IN APP_ID INT, IN APP_PART_ID INT)
+BEGIN
+    
+    DECLARE APP_NAME varchar(50);
+    DECLARE APP_PART_NAME varchar(50);
+    
+    SELECT ApplicationName FROM Applications WHERE ApplicationID = APP_ID INTO APP_NAME;
+    SELECT AppPartName FROM AppParts WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID INTO APP_PART_NAME;
+
+    -- delete data tables
+    SET @STATEMENT = CONCAT('DROP TABLE `', APP_NAME, '.', CAST(APP_PART_ID AS char), '.', APP_PART_NAME, '`');
+    PREPARE stmt FROM @STATEMENT;
+    
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+    -- delete data table reference
+    DELETE FROM AppPartData WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+
+    -- delete element options
+    DELETE FROM ElementOptions WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+
+    -- delete elements
+    DELETE FROM Elements WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+
+    -- delete app part    
+    DELETE FROM AppParts WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspDeleteElement` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspDeleteElement`(IN APP_ID INT, IN APP_PART_ID INT, IN ELEMENT_ID INT)
+BEGIN
+    
+    DECLARE APP_NAME varchar(50);
+    DECLARE APP_PART_NAME varchar(50);
+    DECLARE ELEMENT_NAME varchar(50);
+
+    -- alter data table to drop element data
+    SELECT ApplicationName FROM Applications WHERE ApplicationID = APP_ID INTO APP_NAME;
+    SELECT AppPartName FROM AppParts WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID INTO APP_PART_NAME;
+    SELECT ElementName FROM Elements WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID AND ElementID = ELEMENT_ID INTO ELEMENT_NAME;
+
+    SET @STATEMENT = CONCAT('ALTER TABLE `', APP_NAME, '.', CAST(APP_PART_ID AS char), '.', APP_PART_NAME, '` DROP COLUMN `', CAST(ELEMENT_ID AS char), '.', ELEMENT_NAME, '`');
+    PREPARE stmt FROM @STATEMENT;
+
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+    -- update version of AppPartData table
+    UPDATE AppPartData SET Version = Version + 1 WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+
+    -- delete element options
+    DELETE FROM ElementOptions WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID AND ElementID = ELEMENT_ID;
+
+    -- delete elements
+    DELETE FROM Elements WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID AND ElementID = ELEMENT_ID;
 
 END */;;
 DELIMITER ;
@@ -432,6 +618,7 @@ BEGIN
         ,1 AS Type
         ,ApplicationName AS Name
         ,0 AS ElementID
+        ,0 AS ListOrder
     FROM ClayUI.Applications
     UNION ALL
     SELECT ApplicationID AS AppID
@@ -441,6 +628,7 @@ BEGIN
         ,2 AS Type
         ,AppPartName AS Name
         ,0 AS ElementID
+        ,0 AS ListOrder
     FROM ClayUI.AppParts
     UNION ALL
     SELECT ApplicationID AS AppID
@@ -450,6 +638,7 @@ BEGIN
         ,3 AS Type
         ,'Elements' AS Name
         ,0 AS ElementID
+        ,0 AS ListOrder
     FROM ClayUI.AppParts
     UNION ALL
     SELECT ApplicationID AS AppID
@@ -459,6 +648,7 @@ BEGIN
         ,4 AS Type
         ,ElementName AS Name
         ,ElementID AS ElementID
+        ,ListOrder
     FROM ClayUI.Elements
     UNION ALL
     SELECT ApplicationID AS AppID
@@ -468,8 +658,9 @@ BEGIN
         ,5 AS Type
         ,'DataTable' AS Name
         ,0 AS ElementID
+        ,99999 AS ListOrder
     FROM AppPartData
-    ORDER BY AppID ASC, AppPartID ASC, Type ASC, Position ASC, SortOrder ASC;
+    ORDER BY AppID ASC, AppPartID ASC, Type ASC, Position ASC, SortOrder ASC, ListOrder ASC;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -840,13 +1031,44 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspUpdateApplication`(IN APPLICATION_ID INT, IN APPLICATION_NAME varchar(50), IN APPLICATION_DESCR varchar(255))
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspUpdateApplication`(IN APP_ID INT, IN APP_NAME varchar(50), IN APP_DESCR varchar(255))
 BEGIN
 
-        UPDATE Applications
-            SET ApplicationName = APPLICATION_NAME
-            ,Description = APPLICATION_DESCR
-        WHERE ApplicationID = APPLICATION_ID;
+    DECLARE APP_NAME_PREV varchar(50);
+    DECLARE APP_PART_ID INT;
+    DECLARE APP_PART_NAME varchar(50);
+    DECLARE DONE INT DEFAULT FALSE;
+    DECLARE DATA_TABLES CURSOR FOR SELECT AppPartID, DataTableName FROM AppPartData WHERE ApplicationID = APP_ID;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET DONE = TRUE;
+    
+    -- get application's previous name
+    SELECT ApplicationName FROM Applications WHERE ApplicationID = APP_ID INTO APP_NAME_PREV;
+
+    UPDATE Applications
+        SET ApplicationName = APP_NAME
+        ,Description = APP_DESCR
+    WHERE ApplicationID = APP_ID;
+
+    -- loop through cursor and rename data tables
+    OPEN DATA_TABLES;
+
+    read_loop: LOOP
+        
+        FETCH DATA_TABLES INTO APP_PART_ID, APP_PART_NAME;
+        
+        IF DONE THEN
+            LEAVE read_loop;
+        END IF;
+
+        -- delete data tables
+        SET @STATEMENT = CONCAT('RENAME TABLE `', APP_NAME_PREV, '.', CAST(APP_PART_ID AS char), '.', APP_PART_NAME, '` TO `', APP_NAME, '.', CAST(APP_PART_ID AS char), '.', APP_PART_NAME, '`');
+        PREPARE stmt FROM @STATEMENT;
+        
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
+
+    END LOOP;
+    CLOSE DATA_TABLES;
 
 END */;;
 DELIMITER ;
@@ -898,6 +1120,88 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `uspUpdateElement` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`sqladmin`@`localhost`*/ /*!50003 PROCEDURE `uspUpdateElement`(IN APP_ID INT
+    ,IN APP_PART_ID INT
+    ,IN ELEMENT_ID INT
+    ,IN ELEMENT_NAME VARCHAR(50)
+    ,IN ELEMENT_TYPE INT
+    ,IN DATA_TYPE INT
+    ,IN ELEMENT_LABEL VARCHAR(50)
+    ,IN ELEMENT_DESCR VARCHAR(255)
+    ,IN IS_STORED INT
+    ,IN LIST_ORDER INT
+    ,IN IS_ENABLED INT
+    ,IN DATA_LENGTH INT
+)
+BEGIN
+
+    DECLARE APP_NAME varchar(50);
+    DECLARE APP_PART_NAME varchar(50);
+    DECLARE ELEMENT_NAME_PREV varchar(50);
+    DECLARE DATA_TYPE_DECLARATION varchar(50);
+    
+    -- get previous element name
+    SELECT ElementName FROM Elements WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID AND ElementID = ELEMENT_ID INTO ELEMENT_NAME_PREV;
+
+    -- update version of AppPartData table
+    UPDATE AppPartData SET Version = Version + 1 WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+
+    UPDATE Elements
+        SET ElementName = ELEMENT_NAME
+        ,ElementType = ELEMENT_TYPE
+        ,DataType = DATA_TYPE
+        ,`Label` = ELEMENT_LABEL
+        ,Description = ELEMENT_DESCR
+        ,IsStored = IS_STORED
+        ,ListOrder = LIST_ORDER
+        ,IsEnabled = IS_ENABLED
+        ,Version = Version + 1
+        ,DataLength = DATA_LENGTH
+    WHERE ElementID = ELEMENT_ID AND ApplicationID = APP_ID AND AppPartID = APP_PART_ID;
+
+    -- update data table columns
+    -- alter data table to drop element data using old name if changed
+    SELECT ApplicationName FROM Applications WHERE ApplicationID = APP_ID INTO APP_NAME;
+    SELECT AppPartName FROM AppParts WHERE ApplicationID = APP_ID AND AppPartID = APP_PART_ID INTO APP_PART_NAME;
+
+    SET @STATEMENT = CONCAT('ALTER TABLE `', APP_NAME, '.', CAST(APP_PART_ID AS char), '.', APP_PART_NAME, '` DROP COLUMN `', CAST(ELEMENT_ID AS char), '.', ELEMENT_NAME_PREV, '`');
+    PREPARE stmt FROM @STATEMENT;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+    -- add new data table column using new element info
+    CASE DATA_TYPE
+        WHEN 0 THEN SELECT CONCAT('varchar(', CAST(DATA_LENGTH AS char), ')') INTO DATA_TYPE_DECLARATION;
+        WHEN 1 THEN SELECT 'INT' INTO DATA_TYPE_DECLARATION;
+        WHEN 2 THEN SELECT 'DECIMAL (18,4)' INTO DATA_TYPE_DECLARATION;
+        WHEN 3 THEN SELECT 'DATE' INTO DATA_TYPE_DECLARATION;
+        WHEN 4 THEN SELECT 'DATETIME' INTO DATA_TYPE_DECLARATION;
+    END CASE;
+    
+    
+    SET @STATEMENT = CONCAT('ALTER TABLE `', APP_NAME, '.', CAST(APP_PART_ID AS char), '.', APP_PART_NAME, '` ADD COLUMN `', CAST(ELEMENT_ID AS char), '.', ELEMENT_NAME, '` ', DATA_TYPE_DECLARATION);
+    SELECT @STATEMENT;
+    PREPARE stmt FROM @STATEMENT;
+
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt; 
+
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -908,4 +1212,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-04-01 18:26:38
+-- Dump completed on 2012-04-15 17:18:33
