@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: ClayUI
 -- ------------------------------------------------------
--- Server version	5.1.61
+-- Server version	5.1.61-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,34 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `App2.4.New_AppPart`
---
-
-DROP TABLE IF EXISTS `App2.4.New_AppPart`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `App2.4.New_AppPart` (
-  `RecordID` int(11) NOT NULL AUTO_INCREMENT,
-  `35.NewElement` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`RecordID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `App2.5.Test App Part`
---
-
-DROP TABLE IF EXISTS `App2.5.Test App Part`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `App2.5.Test App Part` (
-  `RecordID` int(11) NOT NULL AUTO_INCREMENT,
-  `36.NewElement` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`RecordID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `AppPartData`
@@ -94,7 +66,7 @@ CREATE TABLE `Applications` (
   `Description` varchar(255) DEFAULT NULL,
   `IsEnabled` bit(1) NOT NULL DEFAULT b'1',
   PRIMARY KEY (`ApplicationID`,`ApplicationName`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,22 +88,10 @@ CREATE TABLE `ClayUI_Demo.1.Contacts` (
   `40.NewElement` varchar(25) DEFAULT NULL,
   `41.NewElement` varchar(25) DEFAULT NULL,
   `42.NewElement` varchar(25) DEFAULT NULL,
+  `55.Country` varchar(25) DEFAULT NULL,
+  `56.ZipCode` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`RecordID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ClayUI_Demo.2.New_AppPart`
---
-
-DROP TABLE IF EXISTS `ClayUI_Demo.2.New_AppPart`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ClayUI_Demo.2.New_AppPart` (
-  `RecordID` int(11) NOT NULL AUTO_INCREMENT,
-  `9.NewElement` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`RecordID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +128,7 @@ CREATE TABLE `ElementOptions` (
   PRIMARY KEY (`ElementOptionID`,`ElementID`,`ApplicationID`,`AppPartID`),
   KEY `fk_ElementOptions_Elements` (`ElementID`,`ApplicationID`,`AppPartID`),
   CONSTRAINT `fk_ElementOptions_Elements` FOREIGN KEY (`ElementID`, `ApplicationID`, `AppPartID`) REFERENCES `Elements` (`ElementID`, `ApplicationID`, `AppPartID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -214,7 +174,7 @@ CREATE TABLE `Elements` (
   CONSTRAINT `fk_Elements_AppParts` FOREIGN KEY (`ApplicationID`, `AppPartID`) REFERENCES `AppParts` (`ApplicationID`, `AppPartID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Elements_DataTypes` FOREIGN KEY (`DataType`) REFERENCES `DataTypes` (`DataTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_Elements_ElementTypes` FOREIGN KEY (`ElementType`) REFERENCES `ElementTypes` (`ElementTypeID`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,29 +193,15 @@ CREATE TABLE `ExampleElementDataTable` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `Second App Demo.1.New_AppPart1`
+-- Table structure for table `Test2.1.Test2`
 --
 
-DROP TABLE IF EXISTS `Second App Demo.1.New_AppPart1`;
+DROP TABLE IF EXISTS `Test2.1.Test2`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Second App Demo.1.New_AppPart1` (
+CREATE TABLE `Test2.1.Test2` (
   `RecordID` int(11) NOT NULL AUTO_INCREMENT,
-  `30.NewElement` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`RecordID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `Second App Demo.2.New_AppPart2`
---
-
-DROP TABLE IF EXISTS `Second App Demo.2.New_AppPart2`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Second App Demo.2.New_AppPart2` (
-  `RecordID` int(11) NOT NULL AUTO_INCREMENT,
-  `31.NewElement` varchar(25) DEFAULT NULL,
+  `1.NewElement` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`RecordID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1212,4 +1158,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-04-15 17:18:33
+-- Dump completed on 2012-04-25 22:59:54
